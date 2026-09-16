@@ -1,0 +1,1142 @@
+/*
+Browse surfaces: a listing page head with its pill controls, and the poster grid
+underneath. Shared by Current Season, More Seasons and Explore All.
+*/
+.browse-page {
+  min-height: 100%;
+  padding: var(--content-top) 34px 64px;
+}
+
+/* Centred rather than baseline-aligned: the title is nearly twice the size of the link beside it, so a shared baseline would drop the link. */
+.browse-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  /* A pill is 37px; holding that height keeps a title-only head at the same level as the season pages, where the controls set it. */
+  min-height: 37px;
+  margin-bottom: 18px;
+}
+
+.browse-head-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.browse-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  color: var(--color-ink-deep);
+}
+
+/* -------- season pills --------
+   One pill and one menu, shared by the season picker and the order control. */
+.browse-control {
+  position: relative;
+  flex: none;
+}
+
+/* The topbar's pill surface, shared with the nav buttons and the search field. */
+.browse-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 12px;
+  border: 0.5px solid var(--color-line-strong);
+  border-radius: var(--radius-memo-pill);
+  background: var(--color-memo-sidebar);
+  font: inherit;
+  font-size: 12.5px;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: background-color 0.13s ease;
+}
+
+.browse-pill:hover,
+.browse-pill.is-open {
+  background: var(--color-memo-hover);
+}
+
+.browse-pill-label {
+  color: var(--color-memo-muted);
+}
+
+.browse-pill-value {
+  font-weight: 500;
+}
+
+.browse-pill-arrow {
+  display: flex;
+  color: var(--grey-450);
+}
+
+.browse-pill-chevron {
+  display: flex;
+  color: var(--grey-350);
+}
+
+.browse-pill-arrow svg,
+.browse-pill-chevron svg {
+  width: 13px;
+  height: 13px;
+  display: block;
+}
+
+/* The sidebar's palette: pane surface for the menu, row fill for hover and selection. */
+.browse-pill-menu {
+  position: absolute;
+  top: calc(100% + 7px);
+  right: 0;
+  z-index: 30;
+  min-width: 200px;
+  max-height: min(70vh, 420px);
+  overflow-y: auto;
+  padding: 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border: 1px solid var(--color-memo-line);
+  border-radius: var(--radius-memo-menu);
+  background: var(--color-memo-sidebar);
+  box-shadow: 0 10px 28px rgba(16, 20, 30, 0.12);
+}
+
+.browse-pill-heading {
+  margin: 0;
+  padding: 6px 10px 7px;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.browse-pill-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: var(--radius-memo-pill);
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  color: var(--color-ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.browse-pill-option:hover {
+  background: var(--color-memo-hover);
+}
+
+/* Matches the sidebar's active row: the same fill, plus a heavier weight that separates it from hover. */
+.browse-pill-option.is-on {
+  background: var(--color-memo-hover);
+  font-weight: 550;
+}
+
+.browse-pill-dir {
+  display: flex;
+  color: var(--color-ink);
+}
+
+.browse-pill-dir svg {
+  width: 13px;
+  height: 13px;
+  display: block;
+}
+
+/* A season that has not started yet. */
+.browse-star {
+  display: flex;
+  color: var(--color-warning);
+}
+
+.browse-star svg {
+  width: 13px;
+  height: 13px;
+  display: block;
+}
+
+.browse-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+
+/* Cards fill their cell, so the grid stays even at any pane width. */
+.poster-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: 24px 20px;
+}
+
+.poster-grid .poster {
+  width: auto;
+}
+
+/* One slot for a star and a dot, so their centres stay on the same line down the list. */
+.browse-mark-slot {
+  flex: none;
+  width: 13px;
+  display: grid;
+  place-items: center;
+}
+
+/* A season running now, marked with the same dot the poster cards use. */
+.browse-dot {
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--color-success);
+}
+
+/* Year heading for the season list, which spans decades. */
+.browse-pill-group {
+  position: sticky;
+  top: -7px;
+  z-index: 1;
+  margin: 4px 0 0;
+  padding: 5px 10px 4px;
+  background: var(--color-memo-sidebar);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--color-text-faint);
+}
+
+.browse-pill-group:first-child {
+  margin-top: 0;
+}
+
+/* The season shown, beside the page's own name, dressed as a secondary link rather than a second title. */
+.browse-title-season {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: var(--grey-700);
+}
+
+/* Smaller than the pill's dot: beside this lighter text a larger dot reads as a bullet. */
+.browse-title-season .browse-dot {
+  width: 5px;
+  height: 5px;
+}
+
+.browse-title-season .browse-star svg {
+  width: 11px;
+  height: 11px;
+}
+
+/* A listing waiting on the next key, kept on screen and dimmed. */
+.poster-grid.is-stale,
+.is-stale .poster-row {
+  opacity: 0.45;
+  transition: opacity 0.12s ease;
+}
+
+/* -------- Explore All: search row, filter panel -------- */
+
+/* Queried against this rather than the window: the pane changes width when the sidebar does. */
+.browse-page {
+  container-type: inline-size;
+  container-name: browse;
+}
+
+.browse-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /*
+  Measured from the title's baseline rather than its line box: "Explore All" has
+  no descenders, so the eye sits the gap on the baseline, 6px above the box's end.
+  */
+  margin-bottom: 31px;
+}
+
+/* Inside a head, the controls drop their margin: otherwise the season head grows and its title drops below a title-only head. */
+.browse-head .browse-controls {
+  margin-bottom: 0;
+}
+
+/* Matches the topbar field in search.css; only the layout differs, since this one fills a row. */
+.browse-search {
+  flex: 1;
+  min-width: 0;
+  height: 37px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 16px;
+  border: 0.5px solid var(--color-line-strong);
+  border-radius: var(--radius-memo-pill);
+  background: var(--color-memo-sidebar);
+  color: var(--grey-400);
+}
+
+.browse-search svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+.browse-search input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--grey-750);
+  font-size: 14px;
+}
+
+.browse-search input::placeholder {
+  color: var(--grey-250);
+}
+
+.browse-pill-icon {
+  display: flex;
+  color: var(--grey-450);
+}
+
+.browse-pill-icon svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+.browse-count {
+  min-width: 17px;
+  height: 17px;
+  padding: 0 5px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-memo-pill);
+  background: var(--color-ink);
+  color: var(--color-memo-canvas);
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+/* Narrow pane: the mark carries the meaning on its own. */
+@container browse (max-width: 620px) {
+  .browse-filters-label {
+    display: none;
+  }
+}
+
+.browse-filters-panel {
+  margin-bottom: 16px;
+}
+
+.browse-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(124px, 1fr));
+  gap: 14px 16px;
+}
+
+.browse-field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.browse-field-label {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.browse-filters-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.browse-filters-summary {
+  color: var(--color-memo-muted);
+  font-size: 12px;
+}
+
+.browse-clear {
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 12.5px;
+  color: var(--grey-700);
+  cursor: pointer;
+}
+
+.browse-clear:hover {
+  color: var(--grey-950);
+}
+
+.browse-clear:disabled {
+  color: var(--grey-150);
+  cursor: default;
+}
+
+/* -------- multi-select: two columns of checkboxes -------- */
+
+/* Wider than its field: max-width: 100% would clamp it to the trigger's 132px column and truncate every label. useMenu keeps it inside the pane instead. */
+.browse-pill-menu.is-wide {
+  width: 460px;
+  display: block;
+  padding: 8px;
+}
+
+.browse-check-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 10px 8px;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.browse-check-head button {
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--grey-700);
+  cursor: pointer;
+}
+
+.browse-check-head button:hover {
+  color: var(--grey-950);
+}
+
+.browse-check-head button:disabled {
+  color: var(--grey-150);
+  cursor: default;
+}
+
+.browse-check-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px 6px;
+  max-height: 330px;
+  overflow-y: auto;
+}
+
+.browse-check-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: var(--radius-memo-pill);
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  color: var(--color-ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.browse-check-row:hover {
+  background: var(--color-memo-hover);
+}
+
+/* Only the box marks a choice; the row keeps its surface. */
+.browse-check-box {
+  flex: none;
+  width: 15px;
+  height: 15px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--color-memo-line-hover);
+  border-radius: 4px;
+  background: var(--color-memo-canvas);
+}
+
+.browse-check-row.is-on .browse-check-box {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+}
+
+.browse-check-box svg {
+  width: 10px;
+  height: 10px;
+  color: var(--color-memo-canvas);
+  opacity: 0;
+}
+
+.browse-check-row.is-on .browse-check-box svg {
+  opacity: 1;
+}
+
+.browse-check-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.browse-check-note {
+  margin: 0;
+  padding: 8px 10px;
+  color: var(--color-memo-muted);
+  font-size: 12.5px;
+}
+
+/* -------- Your Lists -------- */
+.your-lists {
+  display: grid;
+  gap: 26px;
+}
+
+.your-lists-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+
+/* Same surface as the Explore All field, with the same 31px beneath it. */
+.browse-page > .browse-search {
+  margin-bottom: 31px;
+}
+
+.your-list {
+  display: flex;
+  align-items: center;
+  /* The row spans the column: fixed-width covers, text taking the rest, controls at the far right. */
+  justify-self: stretch;
+  width: 100%;
+}
+
+/* The row's content is the button; the controls sit outside it, so a pin click cannot also open the list. */
+.your-list-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* Hidden at rest, shown when the row is hovered or holds focus, so the row reads as one thing until asked. */
+.your-list-controls {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 14px;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+
+.your-list:hover .your-list-controls,
+.your-list:focus-within .your-list-controls {
+  opacity: 1;
+}
+
+/* One shape for both controls: the pin mark and the grip. */
+.your-list-pin,
+.your-list-grip {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-memo-pill);
+  background: none;
+  color: var(--grey-300);
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease;
+}
+
+.your-list-pin:hover,
+.your-list-grip:hover {
+  background: var(--color-memo-hover);
+  color: var(--color-ink-hover);
+}
+
+.your-list-pin svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* A pinned list says so on its control as well as before its name. */
+.your-list-pin.is-on {
+  color: var(--color-ink);
+}
+
+.your-list-grip {
+  /* The dots are the handle a drag starts from. */
+  color: var(--grey-150);
+  cursor: grab;
+}
+
+.your-list-grip:hover {
+  background: none;
+  color: var(--grey-450);
+}
+
+.your-list-grip svg {
+  width: 12px;
+  height: 16px;
+}
+
+/* A search shows a subset, so a drop among them has no unambiguous place in the kept order; the grip is not offered. */
+.your-lists.is-searching .your-list-grip {
+  display: none;
+}
+
+/*
+The cascade: each cover starts 80% across the one before. From the second on the
+shadow falls left onto the cover behind.
+*/
+.your-list-covers {
+  --cover: 84px;
+  flex: none;
+  display: flex;
+}
+
+.your-list-cover {
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(16, 20, 30, 0.08);
+}
+
+/* A list with a picture of its own shows that instead of its covers. */
+.your-list-picture {
+  flex: none;
+  width: 218px;
+  height: 126px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-memo-line);
+}
+
+.your-list-cover + .your-list-cover {
+  margin-left: calc(var(--cover) * -0.2);
+  box-shadow: -4px 2px 7px -1px rgba(16, 20, 30, 0.18);
+}
+
+.your-list-body {
+  /* Takes the rest of the row, so a long name wraps at the row's width. */
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.your-list-name-line {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+
+.your-list-pin-mark {
+  flex: none;
+  display: flex;
+  color: var(--grey-450);
+}
+
+.your-list-pin-mark svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Plain font: a list name is content, not a heading. */
+.your-list-name {
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--color-ink-deep);
+}
+
+.your-list:hover .your-list-name {
+  color: var(--color-black);
+}
+
+.your-list-facts {
+  display: flex;
+  gap: 6px;
+  margin-top: 9px;
+}
+
+/* The same pill the cards and the detail panels use. */
+.your-list-pill {
+  padding: 2px 9px;
+  border: 1px solid var(--color-memo-line);
+  border-radius: var(--radius-memo-pill);
+  color: var(--color-memo-muted);
+  font-size: 11.5px;
+  line-height: 1.6;
+}
+
+.your-list-updated {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 7px;
+  color: var(--grey-300);
+  font-size: 13.5px;
+}
+
+/* Two lines of description, in the list page's tone. */
+.your-list-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-top: 7px;
+  max-width: 78ch;
+  color: var(--color-memo-muted);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.your-list-updated svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+
+/* -------- One list, opened -------- */
+
+/*
+The cascade owns column one and spans both rows; everything else lives in column
+two, so the description starts where the name does and reaches past the actions.
+*/
+.list-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 26px;
+  align-items: start;
+  margin-bottom: 26px;
+}
+
+/* With nothing to lead with, the header is one column rather than an empty one. */
+.list-head.no-image {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.list-picture {
+  width: 270px;
+  height: 156px;
+  overflow: hidden;
+  border: 1px solid var(--color-memo-line);
+  border-radius: 10px;
+  background: var(--color-surface-sunken);
+}
+
+.list-covers {
+  --cover: 104px;
+  display: flex;
+}
+
+.list-cover {
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(16, 20, 30, 0.08);
+}
+
+.list-cover + .list-cover {
+  margin-left: calc(var(--cover) * -0.2);
+  box-shadow: -4px 2px 7px -1px rgba(16, 20, 30, 0.18);
+}
+
+.list-head-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.list-head-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.list-head-body {
+  /* The name takes the width it needs before the actions on the right. */
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+/* The page's heading size, in the plain font: a list name is content. */
+.list-name {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-ink-deep);
+}
+
+.list-facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.list-updated {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--grey-300);
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+
+/* Only when a count pill comes first: without counts the date keeps the name's left edge. */
+.list-facts .poster-pill + .list-updated {
+  margin-left: 10px;
+}
+
+.list-updated svg {
+  width: 13px;
+  height: 13px;
+}
+
+.list-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+
+.list-description {
+  margin: 12px 0 0;
+  color: var(--grey-500);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.list-filter {
+  display: flex;
+  gap: 6px;
+}
+
+.list-count {
+  margin-left: 4px;
+  color: var(--grey-300);
+  font-size: 12.5px;
+}
+
+.list-page .browse-controls .browse-control:last-child {
+  margin-left: auto;
+}
+
+/* The one control on a page that commits an action. */
+.browse-pill.is-primary {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-memo-canvas);
+  font-weight: 600;
+}
+
+.browse-pill.is-primary:hover {
+  background: var(--color-black);
+}
+
+.browse-pill.is-primary .browse-pill-icon {
+  color: var(--color-memo-canvas);
+}
+
+/* A segmented choice, not a control that opens something. */
+.browse-pill.is-on {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-memo-canvas);
+}
+
+.browse-pill.is-on:hover {
+  background: var(--color-black);
+}
+
+/* 60% larger than a detail panel's lead: past this the artwork leads and the titles stop scanning. */
+.list-rows .detail-lead {
+  width: 84px;
+  height: 126px;
+  border-radius: 10px;
+}
+
+/*
+Destructive, so it is two steps in one circle: a bin that arms into a check, at an
+unchanged size.
+*/
+.remove-circle {
+  flex: none;
+  align-self: flex-end;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0.5px solid var(--color-danger);
+  border-radius: var(--radius-memo-pill);
+  background: var(--color-danger-soft);
+  color: var(--color-danger-ink);
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity 0.12s ease,
+    background-color 0.14s ease,
+    color 0.14s ease;
+}
+
+.detail-entry:hover .remove-circle,
+.remove-circle:focus-visible {
+  opacity: 1;
+}
+
+.remove-circle:hover {
+  background: var(--color-danger-softer);
+}
+
+.remove-circle.is-armed {
+  border-color: var(--color-danger);
+  background: var(--color-danger);
+  color: var(--color-memo-canvas);
+}
+
+.remove-circle.is-armed:hover {
+  background: var(--color-danger-strong);
+}
+
+.remove-circle svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* -------- Profile -------- */
+
+/* The detail page's banner shape, flat: with no image under it a scrim would only darken a blank surface. */
+.profile-banner {
+  height: 132px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--color-surface-sunken);
+}
+
+/* A chosen banner fills the band; without one the placeholder surface stands. */
+
+.profile-body {
+  padding-bottom: 24px;
+}
+
+/*
+The picture and the edit button cross the banner's lower edge together, inset from
+its ends. Each is pulled up by half its own height, so both centres land on the
+seam.
+*/
+.profile-crest {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: -84px;
+  padding: 0 24px;
+}
+
+.profile-edit {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  /* The picture's overhang, less half the button's own height. */
+  margin-top: 67px;
+  border: 0.5px solid var(--color-line-strong);
+  border-radius: var(--radius-memo-pill);
+  background: var(--color-memo-sidebar);
+  color: var(--grey-450);
+  cursor: pointer;
+  /* The picture's ring, so both read as sitting on the banner. */
+  box-shadow: 0 0 0 5px var(--color-memo-canvas);
+  transition: background-color 0.13s ease, color 0.13s ease;
+}
+
+.profile-edit:hover {
+  background: var(--color-memo-hover);
+  color: var(--color-ink-hover);
+}
+
+.profile-edit svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* A ring rather than a shadow is what separates it from the banner. */
+.profile-pfp {
+  display: grid;
+  place-items: center;
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+  border: 5px solid var(--color-memo-canvas);
+  border-radius: var(--radius-memo-pill);
+  background: var(--color-surface-sunken);
+  color: var(--grey-200);
+}
+
+.profile-pfp svg {
+  width: 41px;
+  height: 41px;
+}
+
+.profile-name {
+  margin: 14px 0 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: -0.02em;
+  color: var(--color-ink-deep);
+}
+
+/* The handle sits under the name at a smaller size. */
+.profile-handle {
+  margin: 4px 0 0;
+  color: var(--color-ink-deep);
+  font-size: 13px;
+}
+
+.profile-bio {
+  margin: 8px 0 0;
+  color: var(--color-memo-muted);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+.profile-stats {
+  display: flex;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+/* -------- Profile: the lists it keeps -------- */
+
+.profile-section {
+  margin-top: 30px;
+}
+
+.profile-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 10px;
+  max-width: 520px;
+}
+
+.profile-list-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 12px;
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.13s ease;
+}
+
+.profile-list-row:hover {
+  background: var(--color-memo-sidebar);
+}
+
+.profile-list-covers {
+  --cover: 30px;
+  flex: none;
+  display: flex;
+}
+
+.profile-list-cover {
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(16, 20, 30, 0.08);
+}
+
+.profile-list-cover + .profile-list-cover {
+  margin-left: calc(var(--cover) * -0.2);
+  box-shadow: -2px 1px 4px -1px rgba(16, 20, 30, 0.18);
+}
+
+/* A list with its own picture shows one image in the same footprint. */
+.profile-list-covers:has(.is-picture) {
+  width: calc(var(--cover) * 2.6);
+  height: calc(var(--cover) * 1.5);
+  overflow: hidden;
+  border-radius: 3px;
+}
+
+.profile-list-cover.is-picture {
+  width: 100%;
+  height: 100%;
+}
+
+.profile-list-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profile-list-name {
+  font-size: 13.5px;
+  font-weight: 550;
+  color: var(--color-ink);
+}
+
+.profile-list-meta {
+  color: var(--color-memo-muted);
+  font-size: 11.5px;
+}
+
+.profile-list-chevron {
+  flex: none;
+  display: flex;
+  color: var(--grey-200);
+}
+
+.profile-list-chevron svg {
+  width: 13px;
+  height: 13px;
+}

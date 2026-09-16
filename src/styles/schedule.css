@@ -1,0 +1,152 @@
+/* Airing schedule: a day strip, then that day's episodes in two columns. */
+.schedule-days {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.schedule-day {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 8px 10px 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  border: 1px solid var(--color-memo-line);
+  border-radius: 12px;
+  background: var(--color-memo-canvas);
+  font: inherit;
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.schedule-day:hover {
+  background: var(--color-memo-sidebar);
+}
+
+.schedule-weekday {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-memo-muted);
+}
+
+.schedule-daynumber {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* Today keeps the accent even when another day is selected; the selected day is the filled one. */
+.schedule-day.is-today {
+  border-color: rgba(10, 132, 255, 0.55);
+}
+
+.schedule-day.is-today .schedule-weekday {
+  color: var(--color-link);
+}
+
+.schedule-day.is-on {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-memo-canvas);
+}
+
+.schedule-day.is-on .schedule-weekday {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.schedule-day.is-today.is-on {
+  border-color: var(--color-ink);
+}
+
+.schedule-day.is-today.is-on .schedule-weekday {
+  color: var(--color-accent-sky);
+}
+
+.schedule-count {
+  margin: 0 0 10px;
+  color: var(--color-memo-muted);
+  font-size: 12.5px;
+}
+
+.schedule-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(390px, 1fr));
+  gap: 4px 30px;
+}
+
+.schedule-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 12px;
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.schedule-row:hover {
+  background: var(--color-memo-sidebar);
+}
+
+.schedule-time {
+  flex: none;
+  width: 60px;
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink);
+}
+
+.schedule-art {
+  flex: none;
+  width: 50px;
+  height: 70px;
+  overflow: hidden;
+  border-radius: 9px;
+  background: var(--color-memo-sidebar);
+  box-shadow: 0 1px 2px rgba(16, 20, 30, 0.08);
+}
+
+.schedule-body {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.schedule-name {
+  font-size: 15px;
+  font-weight: 550;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.schedule-meta {
+  color: var(--color-memo-muted);
+  font-size: 12.5px;
+}
+
+/* Already aired: dimmed, but still clickable. */
+.schedule-row.is-aired .schedule-time,
+.schedule-row.is-aired .schedule-name {
+  color: var(--grey-200);
+}
+
+.schedule-row.is-aired .schedule-meta {
+  color: var(--grey-150);
+}
+
+/* The previous day stays on screen, dimmed, while the next loads. A loading line
+   would collapse the section and rebuild every cover. */
+.schedule-list.is-stale {
+  opacity: 0.45;
+}

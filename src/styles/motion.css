@@ -1,0 +1,39 @@
+@media (prefers-reduced-motion: reduce) {
+  .folder-pane,
+  .folder-pane-inner,
+  .header-controls,
+  .content-search-row,
+  .content-search,
+  .tool-button,
+  .resize-handle,
+  .nav-row,
+  .nav-row-more,
+  .your-list-controls,
+  .your-list-pin,
+  .your-list-grip,
+  .hero-frame {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .poster:hover .poster-title.overflowing > span {
+    animation: none !important;
+  }
+
+  .poster-art,
+  .poster-overlay,
+  .poster-add,
+  .poster:hover .poster-art {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .hero-nav-dots button.is-on::after {
+    animation: none !important;
+    transform: scaleX(1);
+  }
+
+  .detail-airing-track i {
+    transition: none !important;
+  }
+}

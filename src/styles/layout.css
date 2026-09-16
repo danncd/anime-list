@@ -1,0 +1,133 @@
+.app-shell {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: var(--color-memo-canvas);
+  -webkit-app-region: no-drag;
+}
+
+.workspace {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  -webkit-app-region: no-drag;
+}
+
+.folder-pane,
+.editor-pane {
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  flex: none;
+  -webkit-app-region: no-drag;
+}
+
+.folder-pane {
+  flex-shrink: 0;
+  background: var(--color-memo-sidebar);
+  overflow: hidden;
+  border-right: 0.5px solid var(--color-memo-line);
+  transition: width 0.2s ease;
+  will-change: width;
+}
+
+.folder-pane.dragging {
+  transition: none;
+}
+
+.folder-pane.closed {
+  pointer-events: none;
+  border-right: 0;
+}
+
+.folder-pane-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  /* Balances the window controls: 20.5px below them, the same distance they sit from the window top. */
+  padding: 56px 0 10px;
+  overflow: hidden;
+  -webkit-app-region: no-drag;
+  transform: translateX(0);
+  transition: transform 0.2s ease;
+}
+
+.folder-pane.closed .folder-pane-inner {
+  transform: translateX(-100%);
+}
+
+.folder-pane.dragging .folder-pane-inner {
+  transition: none;
+}
+
+/*
+The pane can be any width; the page inside it should not. The reading column
+stops growing and centres, while the toolbar above still spans the pane.
+*/
+.editor-scroll > * {
+  max-width: 1080px;
+  margin-inline: auto;
+}
+
+.editor-scroll {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Chrome's scroll anchoring would fight the offset restore when a whole view is swapped out. */
+  overflow-anchor: none;
+}
+
+.editor-pane {
+  position: relative;
+  flex: 1;
+  background: var(--color-memo-canvas);
+  overflow: hidden;
+  -webkit-app-region: no-drag;
+}
+
+.resize-handle {
+  position: relative;
+  z-index: 4;
+  width: 0.5px;
+  flex: none;
+  background: var(--surface-300);
+  cursor: col-resize;
+  -webkit-app-region: no-drag;
+  transition:
+    width 0.2s ease,
+    background 0.15s ease;
+}
+
+.resize-handle::after {
+  content: "";
+  position: absolute;
+  inset: 0 -3px;
+}
+
+.resize-handle:hover {
+  background: var(--color-memo-line-hover);
+}
+
+.resize-handle.closed {
+  width: 0;
+  pointer-events: none;
+}
+
+/* Top aligns with the first sidebar row, so the heading needs no extra space above it. */
+.content-view {
+  min-height: 100%;
+  padding: var(--content-top) 32px 32px;
+}
+
+.content-view h1 {
+  margin: 0;
+  color: var(--color-ink-hover);
+  font-size: 26px;
+  font-weight: 600;
+}

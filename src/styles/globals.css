@@ -1,0 +1,177 @@
+@import "./theme.css";
+@import "./layout.css";
+@import "./toolbar.css";
+@import "./search.css";
+@import "./sidebars.css";
+@import "./home.css";
+@import "./detail.css";
+@import "./browse.css";
+@import "./schedule.css";
+@import "./modal.css";
+@import "./motion.css";
+
+:root {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  color: var(--color-memo-text);
+  background: var(--color-memo-canvas);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-app-region: no-drag;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/*
+The image crop, declared once. The container sizes the frame and the image fills
+it; every cover, avatar, banner and thumbnail shares these four declarations.
+*/
+.poster-art img,
+.search-art img,
+.schedule-art img,
+.detail-banner img,
+.detail-cover img,
+.detail-lead img,
+.detail-trailer img,
+.your-list-picture img,
+.list-picture img,
+.profile-banner img,
+.profile-pfp img,
+.new-list-picture img,
+.picker-picture,
+.edit-banner img,
+.edit-pfp img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/*
+The overlapping cover stack: four frames of one shape. Each surface sets its own
+corner radius and shadow.
+*/
+.your-list-cover,
+.list-cover,
+.profile-list-cover,
+.picker-cover {
+  width: var(--cover);
+  height: calc(var(--cover) * 1.5);
+  object-fit: cover;
+  display: block;
+  background: var(--color-surface-sunken);
+}
+
+/* The line a surface shows when it has nothing to show. Shared by every surface. */
+.note {
+  margin: 0;
+  color: var(--color-memo-muted);
+  font-size: 13.5px;
+}
+
+/* A note above something else on a browse page. */
+.note.is-spaced {
+  margin-bottom: 12px;
+}
+
+/* Text only a screen reader reads; it must keep its place in the accessibility
+   tree, so `display: none` is not an option. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/*
+Dragging a row into a new order: the row is lifted out as a copy that follows the
+pointer. What travels through the list is a marker the drag engine makes, either
+a placeholder at the row's height or a hairline where rows stay put.
+*/
+.drag-ghost {
+  position: fixed;
+  z-index: 60;
+  margin: 0;
+  background: var(--color-memo-canvas);
+  box-shadow: var(--shadow-raised);
+  pointer-events: none;
+}
+
+.drag-placeholder {
+  border-radius: var(--radius-memo-menu);
+  background: var(--color-memo-sidebar);
+}
+
+.drop-line {
+  margin-bottom: -2px;
+  border-radius: 2px;
+  background: var(--color-ink);
+}
+
+/* The row left behind while its copy is dragged. Where a placeholder holds the
+   gap, the row leaves the flow; where a line marks the place, it stays in its
+   slot and dims. */
+[data-drag-id].is-dragging {
+  display: none;
+}
+
+.is-ghost {
+  opacity: 0.35;
+}
+
+body.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+body.is-dragging * {
+  cursor: grabbing !important;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+  background: var(--color-memo-canvas);
+  -webkit-app-region: no-drag;
+}
+
+/*
+Text is selectable: this is a database, and titles, synopses and credits get
+copied out. Controls opt out below, so a dragged label leaves no selection trail.
+*/
+body {
+  min-width: 900px;
+  min-height: 650px;
+  overflow: hidden;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  app-region: no-drag;
+  -webkit-app-region: no-drag;
+}
+
+button {
+  color: inherit;
+  /* A control's label is part of the control, not copy. */
+  user-select: none;
+}

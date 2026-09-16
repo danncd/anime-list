@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Relative, because the build is opened from disk as well as from a server. -->
+    <link rel="icon" href="./logo.png" />
+    <title>Anime List</title>
+    <style>
+      /*
+      The boot screen. Written out rather than imported because it has to paint
+      before anything else can; the values are the ones `theme.css` uses.
+      */
+      #boot {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 22px;
+        background: #ffffff;
+        transition: opacity 0.22s ease;
+      }
+      #boot.is-gone {
+        opacity: 0;
+      }
+      .boot-mark {
+        width: 96px;
+        height: 96px;
+        border-radius: 22px;
+        box-shadow: 0 8px 20px rgba(16, 20, 30, 0.16);
+      }
+      .boot-track {
+        width: 132px;
+        height: 2px;
+        border-radius: 2px;
+        background: #e6e6e6;
+        overflow: hidden;
+      }
+      .boot-fill {
+        display: block;
+        width: 42%;
+        height: 100%;
+        border-radius: 2px;
+        background: #1a1b1f;
+        animation: boot-sweep 1.15s ease-in-out infinite;
+      }
+      @keyframes boot-sweep {
+        from {
+          transform: translateX(-110%);
+        }
+        to {
+          transform: translateX(360%);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .boot-fill {
+          animation: none;
+          width: 100%;
+          opacity: 0.35;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <div id="boot" role="status" aria-label="Starting Anime List">
+      <img class="boot-mark" src="./logo.png" alt="" width="96" height="96" />
+      <span class="boot-track"><span class="boot-fill"></span></span>
+    </div>
+
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

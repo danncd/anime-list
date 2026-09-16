@@ -1,0 +1,936 @@
+/*
+Anime detail page. It is its own query container: opening the sidebar changes the
+pane width without the window changing, so viewport media queries would answer
+the wrong question.
+*/
+.detail-page {
+  container-type: inline-size;
+  container-name: detail;
+
+  min-height: 100%;
+  padding: var(--content-top) 34px 70px;
+}
+
+/* ---------------- loading ---------------- */
+.detail-loading {
+  display: flex;
+  gap: 34px;
+}
+
+.detail-loading-cover {
+  width: 232px;
+  aspect-ratio: 2 / 3;
+  flex: none;
+  border-radius: 14px;
+  background: var(--color-memo-sidebar);
+}
+
+.detail-loading-lines {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  padding-top: 12px;
+}
+
+.detail-loading-lines i {
+  display: block;
+  height: 18px;
+  border-radius: 8px;
+  background: var(--color-memo-sidebar);
+}
+
+.detail-loading-lines i:nth-child(1) {
+  height: 34px;
+  width: 72%;
+}
+
+.detail-loading-lines i:nth-child(2) {
+  width: 42%;
+}
+
+.detail-loading-lines i:nth-child(3) {
+  width: 58%;
+}
+
+/* ---------------- header ---------------- */
+/* Wide art, shown only on narrow panes, where it gives the cover something to sit over. */
+.detail-banner {
+  display: none;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--color-memo-sidebar);
+}
+
+.detail-head {
+  display: flex;
+  gap: 34px;
+  padding-bottom: 22px;
+}
+
+.detail-cover-col {
+  flex: none;
+  width: 232px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detail-cover {
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--color-memo-sidebar);
+  box-shadow: 0 12px 32px rgba(8, 10, 14, 0.16);
+}
+
+.detail-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.detail-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 15px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-memo-pill);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.detail-action-primary {
+  flex: 1;
+  min-width: 0;
+  padding: 0 12px;
+  background: var(--color-ink);
+  color: var(--color-memo-canvas);
+}
+
+.detail-action-primary svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* Matches the topbar controls' pill surface. */
+.detail-action-icon {
+  width: 36px;
+  flex: none;
+  padding: 0;
+  border: 0.5px solid var(--color-line-strong);
+  background: var(--color-memo-sidebar);
+  color: var(--color-ink);
+  transition: background-color 0.13s ease;
+}
+
+.detail-action-icon:hover {
+  background: var(--color-memo-hover);
+}
+
+.detail-action-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.detail-headline {
+  flex: 1;
+  min-width: 0;
+  padding-top: 4px;
+}
+
+.detail-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 35px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.032em;
+  color: var(--color-ink-deep);
+}
+
+.detail-alts {
+  margin: 10px 0 0;
+  color: var(--color-memo-muted);
+  font-size: 13px;
+}
+
+.detail-synopsis {
+  margin: 20px 0 0;
+  color: var(--grey-650);
+  font-size: 13.5px;
+  line-height: 1.68;
+}
+
+/* ---------------- pills and dots ---------------- */
+.detail-pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin-top: 17px;
+}
+
+.detail-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 25px;
+  max-width: 100%;
+  padding: 0 10px;
+  border: 1px solid var(--color-memo-line);
+  border-radius: var(--radius-memo-pill);
+  color: var(--color-memo-muted);
+  font-size: 11.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.detail-pill-strong {
+  color: var(--color-ink-deep);
+  font-weight: 650;
+}
+
+.detail-pill small {
+  margin-left: 4px;
+  color: var(--color-memo-muted);
+  font-weight: 400;
+}
+
+.detail-pill-readout {
+  height: 30px;
+  padding: 0 13px;
+  color: var(--color-ink);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.detail-dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--grey-100);
+}
+
+.detail-dot.airing {
+  background: var(--color-success);
+}
+
+.detail-dot.upcoming {
+  background: var(--color-warning);
+}
+
+.detail-dot.finished {
+  background: var(--color-memo-accent);
+}
+
+/* ---------------- countdown ---------------- */
+.detail-airing {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0 28px;
+}
+
+.detail-airing b {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--color-ink);
+}
+
+.detail-airing-when {
+  color: var(--color-memo-muted);
+  font-size: 12.5px;
+}
+
+.detail-airing-track {
+  flex: 1;
+  height: 6px;
+  border-radius: var(--radius-memo-pill);
+  background: var(--color-memo-line);
+  overflow: hidden;
+}
+
+.detail-airing-track i {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-memo-pill);
+  background: var(--color-memo-accent);
+  transition: width 0.4s linear;
+}
+
+.detail-airing-left {
+  flex: none;
+  color: var(--color-memo-muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.detail-sep {
+  height: 1px;
+  background: var(--color-memo-line);
+}
+
+/* ---------------- tabs ---------------- */
+.detail-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 38px;
+  margin-top: 34px;
+}
+
+.detail-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  margin: 0;
+  padding: 4px 2px 13px;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-family: var(--font-display);
+  font-size: 14.5px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--color-memo-muted);
+  cursor: pointer;
+}
+
+.detail-tab-count {
+  color: var(--color-text-faint);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.detail-tab:hover {
+  color: var(--color-ink);
+}
+
+.detail-tab.is-active {
+  color: var(--color-ink);
+}
+
+.detail-tab.is-active .detail-tab-count {
+  color: var(--color-memo-muted);
+}
+
+.detail-tab.is-active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  border-radius: var(--radius-memo-pill);
+  background: var(--color-ink);
+}
+
+.detail-panel {
+  margin-top: 30px;
+}
+
+/* ---------------- shared rows ---------------- */
+.detail-entries {
+  display: grid;
+  gap: 6px;
+}
+
+.detail-entry {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 12px;
+  border-radius: 14px;
+}
+
+.detail-entry:hover {
+  background: var(--color-memo-sidebar);
+}
+
+.detail-lead {
+  width: 74px;
+  height: 111px;
+  flex: none;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--color-memo-sidebar);
+  box-shadow: 0 1px 2px rgba(16, 20, 30, 0.08);
+}
+
+.detail-lead-rank {
+  height: 74px;
+  display: grid;
+  place-items: center;
+  background: var(--surface-100);
+  box-shadow: none;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 650;
+  color: var(--color-ink);
+}
+
+.detail-entry-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.detail-entry-title,
+.detail-entry-link {
+  margin: 2px 0 0;
+  font-family: var(--font-display);
+  font-size: 15.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-ink-deep);
+}
+
+.detail-entry-link {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.detail-entry-link:hover {
+  text-decoration: underline;
+}
+
+.detail-facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin-top: 9px;
+}
+
+.detail-blurb {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 10px 0 0;
+  color: var(--color-memo-muted);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.detail-figure {
+  flex: none;
+  padding-top: 2px;
+  text-align: right;
+}
+
+.detail-figure b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 650;
+  color: var(--color-ink);
+}
+
+.detail-figure span {
+  display: block;
+  margin-top: 2px;
+  color: var(--color-text-faint);
+  font-size: 11px;
+}
+
+.detail-credit {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.detail-credit-who {
+  text-align: right;
+}
+
+.detail-credit-who b {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink-deep);
+}
+
+.detail-credit-who span {
+  display: block;
+  margin-top: 2px;
+  color: var(--color-text-faint);
+  font-size: 11px;
+}
+
+.detail-credit-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-memo-pill);
+  object-fit: cover;
+  background: var(--color-memo-sidebar);
+}
+
+/* ---------------- information ---------------- */
+.detail-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 48px;
+  row-gap: 12px;
+  margin: 0;
+}
+
+.detail-spec {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 13px 12px;
+  border-radius: 10px;
+}
+
+.detail-spec:hover {
+  background: var(--color-memo-sidebar);
+}
+
+.detail-spec-key {
+  flex: none;
+  color: var(--color-memo-muted);
+  font-size: 13px;
+}
+
+.detail-spec-value {
+  margin: 0;
+  color: var(--color-ink);
+  font-size: 13.5px;
+  font-weight: 550;
+  text-align: right;
+}
+
+.detail-block {
+  margin-top: 44px;
+}
+
+.detail-block-tight {
+  margin-top: 0;
+}
+
+.detail-block-title {
+  margin: 0 0 14px;
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.detail-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 25px;
+  padding: 0 10px;
+  border: 1px solid var(--color-memo-line);
+  border-radius: var(--radius-memo-pill);
+  font-size: 11.5px;
+  color: var(--grey-650);
+}
+
+.detail-tag em {
+  font-style: normal;
+  color: var(--color-text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.detail-tag-flag {
+  color: var(--color-text-faint);
+}
+
+.detail-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.detail-link {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 12px;
+  border: 1px solid var(--color-memo-line);
+  border-radius: var(--radius-memo-pill);
+  color: var(--grey-800);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.detail-link:hover {
+  background: var(--color-memo-sidebar);
+}
+
+.detail-trailer {
+  position: relative;
+  display: block;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  width: 400px;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--color-memo-sidebar);
+}
+
+.detail-trailer-play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(8, 10, 14, 0.26);
+}
+
+.detail-trailer-play > span {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-memo-pill);
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--color-ink-deep);
+  font-size: 14px;
+}
+
+/* ---------------- stats ---------------- */
+.detail-readout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 30px;
+}
+
+.detail-hist {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 12px;
+  height: 172px;
+}
+
+.detail-hist-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  height: 100%;
+}
+
+.detail-hist-count {
+  color: var(--color-text-faint);
+  font-size: 10.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.detail-hist-area {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.detail-hist-area i {
+  display: block;
+  width: 100%;
+  border-radius: 7px;
+  background: var(--surface-400);
+}
+
+.detail-hist-col.is-peak .detail-hist-area i {
+  background: var(--color-ink);
+}
+
+.detail-hist-tick {
+  color: var(--color-memo-muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.detail-split {
+  display: flex;
+  height: 14px;
+  border-radius: var(--radius-memo-pill);
+  overflow: hidden;
+}
+
+.detail-split i {
+  display: block;
+  height: 100%;
+}
+
+.detail-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 26px;
+  margin-top: 18px;
+}
+
+.detail-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-memo-muted);
+  font-size: 12.5px;
+}
+
+.detail-legend i {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+}
+
+.detail-legend b {
+  color: var(--color-ink);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+Two-up people lists while the pane is wide enough that a row still fits, one
+column below. The wide rules are the base, so this is the condition rather than
+the exception.
+*/
+.detail-entries-two-up {
+  column-gap: 30px;
+}
+
+@container detail (min-width: 861px) {
+  .detail-entries-two-up {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .detail-entries-two-up .detail-entry {
+    gap: 14px;
+    padding: 10px;
+  }
+
+  .detail-entries-two-up .detail-lead {
+    width: 58px;
+    height: 87px;
+    border-radius: 9px;
+  }
+
+  .detail-entries-two-up .detail-entry-title,
+  .detail-entries-two-up .detail-entry-link {
+    font-size: 14px;
+  }
+
+  .detail-entries-two-up .detail-facts {
+    margin-top: 7px;
+  }
+
+  .detail-entries-two-up .detail-credit-avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .detail-entries-two-up .detail-credit-who b {
+    font-size: 12.5px;
+  }
+}
+
+/* ---------------- narrower panes ---------------- */
+@container detail (max-width: 1000px) {
+  .detail-cover-col {
+    width: 200px;
+  }
+
+  .detail-head {
+    gap: 28px;
+  }
+
+  .detail-title {
+    font-size: 31px;
+  }
+}
+
+@container detail (max-width: 820px) {
+  .detail-specs {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-head {
+    gap: 22px;
+  }
+
+  .detail-title {
+    font-size: 27px;
+  }
+
+  .detail-hist {
+    gap: 7px;
+    height: 140px;
+  }
+
+  .detail-hist-count {
+    font-size: 9.5px;
+  }
+
+  .detail-tabs {
+    gap: 22px;
+  }
+
+  .detail-tab {
+    font-size: 13.5px;
+  }
+}
+
+@container detail (max-width: 640px) {
+  .detail-banner {
+    display: block;
+  }
+
+  /* The banner carries the art here, so the cover is dropped. */
+  .detail-cover {
+    display: none;
+  }
+
+  .detail-cover-col {
+    display: contents;
+  }
+
+  .detail-head {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    /* Clears the banner instead of touching its bottom edge. */
+    margin-top: 18px;
+  }
+
+  .detail-actions {
+    margin-top: 0;
+  }
+
+  /* Wide row: the button hugs its label. */
+  .detail-action-primary {
+    flex: none;
+  }
+
+  .detail-headline {
+    padding-top: 0;
+  }
+
+  .detail-airing-when {
+    display: none;
+  }
+
+  .detail-tabs {
+    flex-wrap: wrap;
+    gap: 10px 20px;
+  }
+
+  .detail-hist {
+    height: 116px;
+  }
+
+  .detail-hist-count {
+    display: none;
+  }
+}
+
+/* ---------------- show more ----------------
+   AniList caps the totals it reports, so the footer offers the next page rather
+   than a count. */
+.detail-more {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 22px;
+  padding: 0 12px;
+}
+
+.detail-count {
+  margin: 22px 0 0;
+  padding: 0 12px;
+  color: var(--color-memo-muted);
+  font-size: 12.5px;
+}
+
+.detail-more .detail-count {
+  margin: 0;
+  padding: 0;
+}
+
+.detail-more-button {
+  height: 32px;
+  padding: 0 16px;
+  border: 1px solid var(--color-memo-line);
+  border-radius: var(--radius-memo-pill);
+  background: transparent;
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.detail-more-button:hover:not(:disabled) {
+  background: var(--color-memo-sidebar);
+}
+
+.detail-more-button:disabled {
+  color: var(--color-memo-muted);
+  cursor: default;
+}
+
+/* A row whose lead art opens the same place as its title. */
+.detail-lead-action {
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+}
+
+.detail-lead-action:focus-visible {
+  outline: 2px solid var(--color-memo-accent);
+  outline-offset: 2px;
+}
+
+/* Anime and Manga share one connection, so related groups are split by heading rather than by panel. */
+.detail-related-group + .detail-related-group {
+  margin-top: 22px;
+}
+
+.detail-related-heading {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--color-ink);
+}
+
+/* Brand colours for the streaming marks. */
+.site-mark-youtube {
+  color: var(--color-brand-youtube);
+}
+
+.site-mark-crunchyroll {
+  color: var(--color-brand-crunchyroll);
+}

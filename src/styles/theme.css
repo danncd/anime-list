@@ -1,0 +1,114 @@
+:root {
+  --font-display: "Sora", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+
+  --color-memo-canvas: #ffffff;
+  --color-memo-sidebar: #f7f7f7;
+  --color-memo-hover: #ebebeb;
+  --color-memo-line: #e6e6e6;
+  --color-memo-line-hover: #c8c8c8;
+  --color-memo-accent: #0a84ff;
+  --color-memo-text: #262626;
+  --color-memo-muted: #777777;
+  /* The app's ink: body text, and the fill of a chosen pill. */
+  --color-ink: #1a1b1f;
+  /* Ink one step darker, for a title over a light surface. */
+  --color-ink-deep: #14161a;
+  /* Ink for a control's hovered label. */
+  --color-ink-hover: #171717;
+  --color-text-faint: #a8a8a8;
+  /* The hairline border on pills and fields. */
+  --color-line-strong: #dfdfe4;
+  /* The fill behind something that has not loaded: a cover, an avatar. */
+  --color-surface-sunken: #ececef;
+  /* Anything destructive: the armed remove, a delete. */
+  --color-danger: #e5484d;
+  --color-warning: #f59e0b;
+  --color-success: #22c55e;
+
+  --radius-memo-menu: 12px;
+  --radius-memo-pill: 999px;
+
+  /* The one shadow that is neither a menu's nor a cover's: a row lifted by a drag. */
+  --shadow-raised: 0 8px 20px rgba(16, 20, 30, 0.16);
+
+  /* The stats histogram's five steps, light to dark. A ramp, not semantic colours: the slices are ordered by size. */
+  --ramp-1: #1a1b1f;
+  --ramp-2: #6b7280;
+  --ramp-3: #a8adb7;
+  --ramp-4: #c9ccd2;
+  --ramp-5: #e4e6ea;
+
+  /* Near-ink text: the active sidebar row's label. */
+  --grey-950: #17181c;
+  /* A poster's title, one step off the ink. */
+  --grey-900: #1b1c20;
+  /* A hovered label. */
+  --grey-850: #222222;
+  /* A link's own colour. */
+  --grey-800: #2f333a;
+  /* Body text on a light surface. */
+  --grey-750: #333333;
+  /* Secondary body text. */
+  --grey-700: #3a3d45;
+  /* A synopsis, and a tag's label. */
+  --grey-650: #3f434b;
+  /* A sidebar row's label. */
+  --grey-600: #4f4f4f;
+  /* Muted body text. */
+  --grey-550: #555555;
+  /* A list's description. */
+  --grey-500: #5c5c5c;
+  /* The icons that sit inside a control. */
+  --grey-450: #6f747c;
+  --grey-400: #858585;
+  /* A branch's chevron, and a figure's label. */
+  --grey-350: #8a8f98;
+  --grey-300: #9a9a9a;
+  /* Every placeholder in the app. */
+  --grey-250: #a0a0a0;
+  /* Faint icons: separators, chevrons, an aired row. */
+  --grey-200: #b0b5bf;
+  /* A disabled control's label. */
+  --grey-150: #c4c8cf;
+  /* The release dot, and the histogram's empty area. */
+  --grey-100: #c9ccd2;
+  /* A rank badge, and a hovered add button. */
+  --surface-100: #f1f1f3;
+  /* A skeleton's text line. */
+  --surface-150: #efeff1;
+  /* A skeleton's pill. */
+  --surface-200: #f3f3f5;
+  /* The hero before it loads. */
+  --surface-250: #f4f4f6;
+  /* The resize handle. */
+  --surface-300: #e5e5e5;
+  /* A toolbar pill's hover. */
+  --surface-350: #eeeeee;
+  /* The histogram's empty track. */
+  --surface-400: #dfe1e6;
+  /* The bin inside a remove control. */
+  --color-danger-ink: #c62a2f;
+  /* The armed remove under the pointer. */
+  --color-danger-strong: #d63b40;
+  /* A remove control's resting fill. */
+  --color-danger-soft: #fdecec;
+  /* Its fill under the pointer. */
+  --color-danger-softer: #fbdede;
+  /* YouTube's mark, as its brand requires. */
+  --color-brand-youtube: #ff0000;
+  /* Crunchyroll's mark, like its own. */
+  --color-brand-crunchyroll: #f47521;
+  /* The hero's kicker, and today's weekday. */
+  --color-accent-sky: #8fd0ff;
+  /* The hero's score. */
+  --color-gold: #ffd166;
+  /* Today's weekday in the schedule strip. */
+  --color-link: #0a6fd8;
+
+  /* The last step: a mask, and the shadow under a cover. */
+  --color-black: #000000;
+
+  --top-row-height: 54px;
+  /* Distance from the window top to the first line of content, below the floating toolbar. */
+  --content-top: 76px;
+}

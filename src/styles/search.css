@@ -1,0 +1,204 @@
+/* Spans the content area at the window-controls height. Left padding is set
+   inline to the nav's footprint so the field centres without overlapping it. */
+.content-search-row {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: var(--top-row-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 14px;
+  pointer-events: none;
+  transition:
+    left 0.2s ease,
+    padding-left 0.2s ease;
+  -webkit-app-region: no-drag;
+}
+
+/* Sidebar surface keeps the field legible against the white page. */
+.content-search {
+  width: min(612px, 100%);
+  height: 37px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 16px;
+  border: 0.5px solid var(--color-line-strong);
+  border-radius: 999px;
+  background: var(--color-memo-sidebar);
+  color: var(--grey-400);
+  pointer-events: auto;
+  -webkit-app-region: no-drag;
+}
+
+.content-search svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+.content-search input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--grey-750);
+  font-size: 14px;
+  user-select: text;
+  -webkit-app-region: no-drag;
+}
+
+.content-search input::placeholder {
+  color: var(--grey-250);
+}
+
+/* The field is wrapped so the panel can sit beneath it, centred with it. */
+.content-search-wrap {
+  position: relative;
+  width: min(612px, 100%);
+  /*
+  The toolbar row is pointer-events: none so clicks across the top of the window
+  are not swallowed. The field opts back in, and this wrapper is a sibling of the
+  field, so the panel must opt in too.
+  */
+  pointer-events: auto;
+  -webkit-app-region: no-drag;
+}
+
+.content-search-wrap .content-search {
+  width: 100%;
+}
+
+/*
+Menu surface with the app's two-tier rounding: button rows are pills, result
+rows are list rows.
+*/
+.search-menu {
+  position: absolute;
+  /* Clears the field and the toolbar's bottom edge. */
+  top: calc(100% + 15px);
+  left: 0;
+  right: 0;
+  z-index: 40;
+  padding: 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: min(70vh, 460px);
+  overflow-y: auto;
+  border: 1px solid var(--color-memo-line);
+  border-radius: var(--radius-memo-menu);
+  background: var(--color-memo-sidebar);
+  box-shadow: 0 10px 28px rgba(16, 20, 30, 0.12);
+}
+
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  min-width: 0;
+  padding: 9px 11px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  font: inherit;
+  font-size: 13.5px;
+  color: var(--color-ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.search-row:hover,
+.search-row.is-active {
+  background: var(--color-memo-hover);
+}
+
+.search-row.is-primary {
+  border-radius: var(--radius-memo-pill);
+  background: var(--color-memo-hover);
+}
+
+.search-row strong {
+  font-weight: 600;
+}
+
+.search-glyph {
+  flex: none;
+  display: flex;
+  color: var(--grey-450);
+}
+
+.search-glyph svg {
+  width: 16px;
+  height: 16px;
+}
+
+.search-where {
+  margin-left: auto;
+  padding-left: 10px;
+  color: var(--color-memo-muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.search-head {
+  margin: 0;
+  padding: 9px 11px 4px;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.search-art {
+  flex: none;
+  width: 38px;
+  height: 53px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--color-surface-sunken);
+}
+
+.search-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.search-title {
+  font-weight: 550;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Matches the pill on the cards and detail panels. */
+.search-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.search-pill {
+  padding: 2px 7px;
+  border: 1px solid var(--color-memo-line);
+  border-radius: var(--radius-memo-pill);
+  color: var(--color-memo-muted);
+  font-size: 10.5px;
+  line-height: 1.5;
+}
+
+.search-note {
+  margin: 0;
+  padding: 12px 11px;
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  color: var(--color-memo-muted);
+  font-size: 13px;
+}

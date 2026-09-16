@@ -1,0 +1,680 @@
+.home {
+  --section-gap: 20px;
+
+  min-height: 100%;
+  padding: var(--content-top) 34px 64px;
+}
+
+/* One rhythm: the hero and every section that follows use the same gap. */
+.hero + .home-section,
+.home-section + .home-section {
+  margin-top: var(--section-gap);
+}
+
+/* The title's line box is as tall as a nav row, so its text lands on the first sidebar item's line and the dot and button align to its baseline. */
+.home-section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  min-height: 37px;
+  margin: 0 0 12px;
+}
+
+.home-section-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 37px;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+.home-section-sep {
+  color: var(--grey-200);
+  font-size: 15px;
+}
+
+.home-section-more {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: var(--grey-700);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.home-section-more:hover {
+  color: var(--grey-950);
+}
+
+/* ---------------- poster row ---------------- */
+
+/* Native wheel/trackpad scrolling plus pointer dragging. overflow-y: hidden clips
+   the hover scale, so the row carries padding and an equal negative margin, which
+   widens the clip box without moving the covers. */
+.poster-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 8px 8px 6px;
+  margin: -8px -8px 0;
+  cursor: grab;
+  user-select: none;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.poster-row::-webkit-scrollbar {
+  display: none;
+}
+
+.poster-row.dragging {
+  cursor: grabbing;
+}
+
+/* Column flex reset: the button's default centring would drop each poster by a
+   different amount depending on its title height. */
+.poster {
+  flex: none;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+/* The cover grows on hover, not the image inside it, so the rounded frame grows
+   with the artwork. */
+.poster-art {
+  flex: none;
+  position: relative;
+  display: block;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border-radius: 11px;
+  background: var(--color-surface-sunken);
+  box-shadow: 0 1px 2px rgba(16, 20, 30, 0.08);
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.poster:hover .poster-art {
+  transform: scale(1.045);
+}
+
+/* Hover affordances: a scrim over the art and an add pill in the corner. */
+.poster-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(8, 10, 14, 0.42);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.poster:hover .poster-overlay,
+.poster:focus-within .poster-overlay {
+  opacity: 1;
+}
+
+/* Covers the art so the card is still clickable; the pill sits above it. */
+.poster-open {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+/* Icon-only circle in the corner of the art. */
+.poster-add {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--color-memo-canvas);
+  box-shadow: 0 6px 18px rgba(8, 10, 14, 0.32);
+  color: var(--color-ink-deep);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease,
+    background-color 0.13s ease;
+}
+
+.poster:hover .poster-add,
+.poster:focus-within .poster-add {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.poster-add:hover {
+  background: var(--surface-100);
+}
+
+.poster-add svg {
+  width: 15px;
+  height: 15px;
+  flex: none;
+}
+
+/* Drag-scrolling must not flash the hover affordances. */
+.poster-row.dragging .poster .poster-art {
+  transform: none;
+}
+
+.poster-row.dragging .poster .poster-overlay,
+.poster-row.dragging .poster .poster-add {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.poster-score {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  z-index: 2;
+  pointer-events: none;
+  height: 22px;
+  padding: 0 7px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border-radius: 7px;
+  background: rgba(10, 12, 16, 0.72);
+  color: var(--color-memo-canvas);
+  font-size: 11px;
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+}
+
+/* ---------------- title line ---------------- */
+
+.poster-titleline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  margin-top: 9px;
+}
+
+/* Release state: green running, amber not out yet, blue finished, grey for
+   cancelled or hiatus. */
+.poster-dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--grey-100);
+}
+
+.poster-dot.airing {
+  background: var(--color-success);
+}
+
+.poster-dot.upcoming {
+  background: var(--color-warning);
+}
+
+.poster-dot.finished {
+  background: var(--color-memo-accent);
+}
+
+.poster-dot.other {
+  background: var(--grey-100);
+}
+
+.poster-title {
+  display: block;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  color: var(--grey-900);
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.poster-title > span {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* A title wider than the card travels to its end on hover. The distance is
+   measured per title; the duration follows from it. */
+.poster:hover .poster-title.overflowing > span {
+  animation: poster-title-marquee var(--title-duration, 3.5s) ease-in-out infinite alternate;
+}
+
+.poster-row.dragging .poster:hover .poster-title.overflowing > span {
+  animation: none;
+}
+
+@keyframes poster-title-marquee {
+  0%,
+  10% {
+    transform: translateX(0);
+  }
+  90%,
+  100% {
+    transform: translateX(var(--title-shift, 0px));
+  }
+}
+
+/* ---------------- pills ---------------- */
+
+.poster-pills {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 5px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.poster-pill {
+  flex: none;
+  height: 20px;
+  padding: 0 7px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--color-memo-line);
+  border-radius: 999px;
+  color: var(--color-memo-muted);
+  font-size: 10.5px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ---------------- loading ---------------- */
+
+.poster.skeleton .poster-art {
+  box-shadow: none;
+}
+
+.poster-skeleton-line {
+  height: 13px;
+  margin-top: 9px;
+  border-radius: 5px;
+  background: var(--surface-150);
+}
+
+.poster-skeleton-pill {
+  width: 72px;
+  height: 18px;
+  margin-top: 9px;
+  border-radius: 999px;
+  background: var(--surface-200);
+}
+
+/* ---------------- hero ---------------- */
+
+/* One banner at a time, with the copy over the bottom and the controls row below
+   it. */
+.hero {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 16px;
+  color: var(--color-memo-canvas);
+}
+
+.hero-stage {
+  position: relative;
+  height: 100%;
+}
+
+.hero-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 420ms ease;
+}
+
+.hero-frame.is-on {
+  opacity: 1;
+}
+
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(8, 10, 14, 0.05) 30%,
+      rgba(8, 10, 14, 0.72) 78%,
+      rgba(8, 10, 14, 0.9) 100%
+    ),
+    linear-gradient(90deg, rgba(8, 10, 14, 0.55) 0%, rgba(8, 10, 14, 0.05) 62%);
+}
+
+.hero-body {
+  position: absolute;
+  left: 26px;
+  right: 26px;
+  bottom: 62px;
+}
+
+.hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--color-accent-sky);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.hero-release {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--grey-100);
+}
+
+.hero-release.airing {
+  background: var(--color-success);
+}
+
+.hero-release.upcoming {
+  background: var(--color-warning);
+}
+
+.hero-release.finished {
+  background: var(--color-memo-accent);
+}
+
+.hero-title {
+  margin: 7px 0 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 23px;
+  letter-spacing: -0.03em;
+  line-height: 1.06;
+  text-shadow: 0 3px 18px rgba(0, 0, 0, 0.45);
+}
+
+.hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 11px;
+}
+
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 23px;
+  padding: 0 9px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+.hero-score {
+  color: var(--color-gold);
+  font-weight: 650;
+}
+
+.hero-controls {
+  position: absolute;
+  left: 26px;
+  right: 26px;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.hero-arrows {
+  display: flex;
+  gap: 6px;
+}
+
+.hero-arrow {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0.5px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-memo-canvas);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition:
+    background 0.13s ease,
+    border-color 0.13s ease;
+}
+
+.hero-arrow:hover {
+  background: rgba(255, 255, 255, 0.24);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.hero-arrow svg {
+  width: 15px;
+  height: 15px;
+}
+
+.hero-nav-dots {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.hero-nav-dots button {
+  position: relative;
+  overflow: hidden;
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.34);
+  cursor: pointer;
+  transition:
+    width 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background 0.15s ease;
+}
+
+.hero-nav-dots button:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* The current dot becomes a pill whose fill runs for one advance interval, so
+   the indicator doubles as the timer. */
+.hero-nav-dots button.is-on {
+  width: 26px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.hero-nav-dots button.is-on::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: var(--color-memo-canvas);
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: hero-advance var(--hero-interval, 7000ms) linear forwards;
+}
+
+.hero.is-paused .hero-nav-dots button.is-on::after {
+  animation-play-state: paused;
+}
+
+@keyframes hero-advance {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.hero-count {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.hero-count em {
+  font-style: normal;
+  color: rgba(255, 255, 255, 0.4);
+  padding: 0 1px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.hero-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 32px;
+  padding: 0 14px;
+  border: 0.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(8px);
+  color: var(--color-memo-canvas);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.13s ease,
+    border-color 0.13s ease;
+}
+
+.hero-actions button:hover {
+  background: rgba(255, 255, 255, 0.26);
+}
+
+.hero-actions svg {
+  width: 15px;
+  height: 15px;
+  flex: none;
+}
+
+.hero-loading {
+  background: linear-gradient(180deg, var(--surface-250) 0%, var(--color-surface-sunken) 100%);
+}
+
+/* Origin switch on the manga row's head. */
+.origin-switch {
+  margin-left: auto;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.origin-option {
+  height: 26px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--radius-memo-pill);
+  background: none;
+  font: inherit;
+  font-size: 12px;
+  color: var(--color-memo-muted);
+  cursor: pointer;
+  transition: background-color 0.13s ease, color 0.13s ease;
+}
+
+.origin-option:hover {
+  background: var(--color-memo-sidebar);
+  color: var(--color-ink);
+}
+
+.origin-option.is-on {
+  background: var(--color-memo-hover);
+  color: var(--color-ink);
+  font-weight: 550;
+}
+
+/* The two-step remove circle the list rows use, in the corner the add button does
+   not occupy. */
+.poster-remove {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0.5px solid var(--color-danger);
+  border-radius: var(--radius-memo-pill);
+  background: var(--color-danger-soft);
+  color: var(--color-danger-ink);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease,
+    background-color 0.13s ease,
+    color 0.13s ease;
+}
+
+.poster:hover .poster-remove,
+.poster:focus-within .poster-remove {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.poster-remove:hover,
+.poster-remove.is-armed {
+  border-color: var(--color-danger);
+  background: var(--color-danger);
+  color: var(--color-memo-canvas);
+}
+
+.poster-remove svg {
+  width: 15px;
+  height: 15px;
+}

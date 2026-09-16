@@ -1,0 +1,550 @@
+/* The New List dialog. */
+.modal-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  background: rgba(16, 20, 30, 0.28);
+}
+
+.modal-dialog {
+  width: min(660px, calc(100vw - 60px));
+  padding: 22px 24px 20px;
+  border: 1px solid var(--color-memo-line);
+  border-radius: 14px;
+  background: var(--color-memo-canvas);
+  box-shadow: 0 24px 60px rgba(16, 20, 30, 0.24);
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.modal-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  color: var(--color-ink-deep);
+}
+
+/* Matches the topbar's pill surface. */
+.modal-close {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0.5px solid var(--color-line-strong);
+  border-radius: var(--radius-memo-pill);
+  background: var(--color-memo-sidebar);
+  color: var(--grey-550);
+  cursor: pointer;
+  transition: background-color 0.13s ease;
+}
+
+.modal-close:hover {
+  background: var(--color-memo-hover);
+  color: var(--color-ink-hover);
+}
+
+.modal-close svg {
+  width: 15px;
+  height: 15px;
+}
+
+.new-list-body {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 22px 24px;
+  align-items: start;
+}
+
+.new-list-picture {
+  position: relative;
+  width: 236px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0;
+  border: 1px solid var(--color-memo-line);
+  border-radius: 10px;
+  background: var(--color-surface-sunken);
+  color: var(--grey-350);
+  font-size: 11.5px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.new-list-picture:hover {
+  background: var(--color-memo-hover);
+}
+
+.new-list-picture svg {
+  width: 22px;
+  height: 22px;
+}
+
+.new-list-picture.has-picture {
+  border-color: var(--color-memo-line);
+  background: none;
+}
+
+.new-list-optional {
+  margin-top: -2px;
+  color: var(--color-text-faint);
+  font-size: 11px;
+}
+
+.modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.modal-field-wide {
+  grid-column: 1 / -1;
+}
+
+.modal-field-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.modal-field input,
+.modal-field textarea {
+  width: 100%;
+  padding: 10px 13px;
+  border: 0.5px solid var(--color-line-strong);
+  border-radius: var(--radius-memo-menu);
+  background: var(--color-memo-canvas);
+  font: inherit;
+  font-size: 13.5px;
+  color: var(--grey-750);
+  outline: 0;
+  resize: none;
+}
+
+.modal-field input:focus,
+.modal-field textarea:focus {
+  border-color: var(--color-memo-line-hover);
+}
+
+.modal-field input::placeholder,
+.modal-field textarea::placeholder {
+  color: var(--grey-250);
+}
+
+.modal-field textarea {
+  height: 104px;
+  line-height: 1.5;
+}
+
+.modal-foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+/* Permanent, since a dialog has no hover to reveal it on, and pushed to the far
+   end: a footer's one destructive action does not sit beside Save. */
+.remove-circle.is-static {
+  margin-right: auto;
+  opacity: 1;
+}
+
+.modal-btn {
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 16px;
+  border: 0.5px solid var(--color-line-strong);
+  border-radius: var(--radius-memo-pill);
+  background: var(--color-memo-sidebar);
+  font: inherit;
+  font-size: 12.5px;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: background-color 0.13s ease;
+}
+
+.modal-btn:hover {
+  background: var(--color-memo-hover);
+}
+
+.modal-btn.is-primary {
+  padding: 0 18px;
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-memo-canvas);
+  font-weight: 600;
+}
+
+.modal-btn.is-primary:hover {
+  background: var(--color-black);
+}
+
+.new-list-file {
+  display: none;
+}
+
+/* A dialog made of choices rather than fields. */
+.modal-head-text {
+  min-width: 0;
+}
+
+.modal-subtitle {
+  margin: 4px 0 0;
+  color: var(--color-memo-muted);
+  font-size: 12.5px;
+}
+
+.picker-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: min(52vh, 420px);
+  overflow-y: auto;
+}
+
+.picker-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 12px;
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.13s ease;
+}
+
+.picker-row:hover {
+  background: var(--color-memo-sidebar);
+}
+
+.picker-row-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.picker-row-name {
+  font-size: 13.5px;
+  font-weight: 550;
+  color: var(--color-ink);
+}
+
+.picker-row-meta {
+  color: var(--color-memo-muted);
+  font-size: 11.5px;
+}
+
+.modal-search {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  height: 37px;
+  margin-bottom: 12px;
+  padding: 0 16px;
+  border: 0.5px solid var(--color-line-strong);
+  border-radius: var(--radius-memo-pill);
+  background: var(--color-memo-sidebar);
+}
+
+.modal-search svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  color: var(--grey-400);
+}
+
+.modal-search input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  color: var(--grey-750);
+}
+
+.modal-search input::placeholder {
+  color: var(--grey-250);
+}
+
+/* -------- Add to list -------- */
+
+/* Wider than the form dialogs: every row carries covers and a state control. */
+.modal-dialog.is-picker {
+  width: min(600px, calc(100vw - 60px));
+}
+
+/* The rows sit in the gutter, so their content lines up with the head above and a hover reaches into the margin. */
+.picker-rows {
+  margin: 0 -12px;
+}
+
+.picker-thumb {
+  --cover: 36px;
+  flex: none;
+  display: flex;
+  /* The cascade's footprint, so a list's own picture fills the same box. */
+  width: calc(var(--cover) * 2.6);
+  height: calc(var(--cover) * 1.5);
+  overflow: hidden;
+  border-radius: 3px;
+}
+
+/* The same cascade a list is shown by everywhere else, at row scale. */
+.picker-cover {
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(16, 20, 30, 0.08);
+}
+
+.picker-cover + .picker-cover {
+  margin-left: calc(var(--cover) * -0.2);
+  box-shadow: -3px 1px 5px -1px rgba(16, 20, 30, 0.18);
+}
+
+/*
+One control, three states: add, in, remove. Sized and coloured like the list rows'
+remove circle, so taking a title out looks the same in both places.
+*/
+.picker-state {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 0.5px solid var(--color-line-strong);
+  border-radius: var(--radius-memo-pill);
+  background: var(--color-memo-sidebar);
+  color: var(--grey-550);
+  transition:
+    background-color 0.13s ease,
+    border-color 0.13s ease,
+    color 0.13s ease;
+}
+
+.picker-state svg {
+  width: 15px;
+  height: 15px;
+}
+
+.picker-state .as-in,
+.picker-state .as-remove {
+  display: none;
+}
+
+.picker-row.is-held .picker-state {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-memo-canvas);
+}
+
+.picker-row.is-held .picker-state .as-add {
+  display: none;
+}
+
+.picker-row.is-held .picker-state .as-in {
+  display: block;
+}
+
+.picker-row.is-held:hover .picker-state,
+.picker-row.is-held:focus-visible .picker-state {
+  border-color: var(--color-danger);
+  background: var(--color-danger);
+  color: var(--color-memo-canvas);
+}
+
+.picker-row.is-held:hover .picker-state .as-in,
+.picker-row.is-held:focus-visible .picker-state .as-in {
+  display: none;
+}
+
+.picker-row.is-held:hover .picker-state .as-remove,
+.picker-row.is-held:focus-visible .picker-state .as-remove {
+  display: block;
+}
+
+/* Nothing to choose from yet: say what the dialog is for. */
+.picker-empty {
+  padding: 4px 12px 14px;
+}
+
+.picker-empty-title {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.picker-empty-body {
+  margin: 6px 0 0;
+  color: var(--color-memo-muted);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+/* Actions sit together at the right; a dialog that splits its ends overrides this. */
+.modal-foot {
+  justify-content: flex-end;
+}
+
+.modal-dialog.is-picker .modal-foot {
+  justify-content: space-between;
+}
+
+.modal-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* -------- Edit profile -------- */
+
+.modal-dialog.profile-editor {
+  width: min(620px, calc(100vw - 60px));
+}
+
+/* The banner picker is the profile's shape, so a chosen image reads at its size. */
+.edit-banner {
+  position: relative;
+  width: 100%;
+  height: 118px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid var(--color-memo-line);
+  border-radius: 14px;
+  background: var(--color-surface-sunken);
+  color: var(--grey-350);
+  font: inherit;
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: background-color 0.13s ease, border-color 0.13s ease;
+}
+
+.edit-banner:hover {
+  background: var(--color-memo-hover);
+}
+
+.edit-banner svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Positioned rather than flowed: only the part below the banner takes space, so nothing clips the rest. */
+.edit-crest {
+  position: relative;
+  height: 38px;
+}
+
+.edit-pfp {
+  position: absolute;
+  top: -58px;
+  left: 20px;
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  overflow: hidden;
+  padding: 0;
+  border: 5px solid var(--color-memo-canvas);
+  border-radius: var(--radius-memo-pill);
+  background: var(--color-surface-sunken);
+  color: var(--grey-350);
+  cursor: pointer;
+  transition: background-color 0.13s ease;
+}
+
+.edit-pfp:hover {
+  background: var(--color-memo-hover);
+}
+
+.edit-pfp svg {
+  width: 30px;
+  height: 30px;
+}
+
+.edit-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+/* The @ sits inside the field rather than being typed. */
+.field-prefix {
+  position: relative;
+  display: block;
+}
+
+.field-prefix input {
+  padding-left: 27px;
+}
+
+.field-prefix::before {
+  content: "@";
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--grey-250);
+  font-size: 13.5px;
+}
+
+/* A set picture can be replaced: the overlay is the affordance, so no second control sits beside it. */
+.pick-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(8, 10, 14, 0.45);
+  color: var(--color-memo-canvas);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.new-list-picture:hover > .pick-overlay,
+.edit-banner:hover > .pick-overlay,
+.edit-pfp:hover > .pick-overlay,
+.new-list-picture:focus-visible > .pick-overlay,
+.edit-banner:focus-visible > .pick-overlay,
+.edit-pfp:focus-visible > .pick-overlay {
+  opacity: 1;
+}
+
+.pick-overlay svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Quiet, and only present when there is something to clear. */
